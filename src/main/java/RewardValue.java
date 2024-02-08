@@ -1,29 +1,36 @@
 
+import java.util.Scanner;
 public class RewardValue {
-    private final double cashValue;
-    public static final double MILES_TO_CASH_CONVERSION_RATE = 0.0035;
+    private double cashValue;
+    private double milesValue;
 
     public RewardValue(double cashValue) {
         this.cashValue = cashValue;
+        this.milesValue = convertToMiles(cashValue);
     }
 
-    public RewardValue(int milesValue) {
-        this.cashValue = convertToCash(milesValue);
-    }
-
-    private static int convertToMiles(double cashValue) {
-        return (int) (cashValue / MILES_TO_CASH_CONVERSION_RATE);
-    }
-
-    private static double convertToCash(int milesValue) {
-        return milesValue * MILES_TO_CASH_CONVERSION_RATE;
+    public RewardValue(double milesValue, boolean isMiles) {
+        if (isMiles) {
+            this.milesValue = milesValue;
+            this.cashValue = convertToCash(milesValue);
+        } else {
+            throw new IllegalArgumentException("Invalid constructor usage. Use the constructor with isMiles parameter.");
+        }
     }
 
     public double getCashValue() {
         return cashValue;
     }
 
-    public int getMilesValue() {
-        return convertToMiles(this.cashValue);
+    public double getMilesValue() {
+        return milesValue;
+    }
+
+    private double convertToMiles(double cashValue) {
+        return cashValue / 0.0035;
+    }
+
+    private double convertToCash(double milesValue) {
+        return milesValue * 0.0035;
     }
 }
